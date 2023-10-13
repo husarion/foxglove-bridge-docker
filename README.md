@@ -10,4 +10,4 @@ docker compose build
 docker compose up
 ```
 
-In the browser open the `http://<host-ip-address>:8080` port.
+In the browser open the URL: http://localhost:8080/ui
