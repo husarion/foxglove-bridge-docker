@@ -1,0 +1,17 @@
+{
+  "configById": {
+    "RawMessages!3osck5n": {
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "",
+      "showFullMessageForDiff": false,
+      "topicPath": "/chatter"
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": "RawMessages!3osck5n"
+}

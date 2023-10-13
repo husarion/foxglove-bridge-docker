@@ -1,0 +1,6 @@
+FROM husarnet/ros:humble-ros-core
+
+SHELL ["/bin/bash", "-c"]
+
+RUN apt update && apt install -y \
+    ros-humble-demo-nodes-cpp
