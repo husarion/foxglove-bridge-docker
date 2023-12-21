@@ -9,6 +9,8 @@ RUN apt update && apt upgrade -y && apt install -y \
         ros-$ROS_DISTRO-foxglove-bridge \
         ros-$ROS_DISTRO-control-msgs \
         ros-$ROS_DISTRO-tf2-msgs \
+        ros-$ROS_DISTRO-bond \
+        ros-$ROS_DISTRO-map-msgs \
         ros-$ROS_DISTRO-nav2-msgs && \
     apt-get autoremove -y && \
     apt-get clean && \
