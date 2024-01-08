@@ -33,7 +33,7 @@ FROM husarnet/ros:${PREFIX}${ROS_DISTRO}-ros-core
 
 SHELL ["/bin/bash", "-c"]
 
-# Install foxglove and all used msgs
+# Install foxglove and all used msgs (robot-localization issue: https://github.com/cra-ros-pkg/robot_localization/issues/859)
 RUN apt update && apt upgrade -y && apt install -y \
         ros-$ROS_DISTRO-foxglove-bridge \
         ros-$ROS_DISTRO-bond \
