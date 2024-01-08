@@ -9,8 +9,8 @@ services:
     #   dockerfile: Dockerfile
     #   context: ../
     ports:
-      - 8765:8765
-    command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765
+      - 8766:8766
+    command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8766
 
   foxglove:
     image: husarion/foxglove:1.72.0
@@ -20,5 +20,5 @@ services:
       - ./foxglove_layout.json:/foxglove/default-layout.json
     environment:
       - DS_TYPE=foxglove-websocket
-      - DS_PORT=8765
+      - DS_PORT=8766
       - UI_PORT=8080
