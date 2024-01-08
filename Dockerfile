@@ -39,6 +39,7 @@ RUN apt update && apt upgrade -y && apt install -y \
         ros-$ROS_DISTRO-bond \
         ros-$ROS_DISTRO-control-msgs \
         ros-$ROS_DISTRO-controller-manager-msgs \
+        ros-$ROS_DISTRO-image-transport-plugins \
         ros-$ROS_DISTRO-map-msgs \
         ros-$ROS_DISTRO-nav2-msgs \
         ros-$ROS_DISTRO-tf2-msgs \
