@@ -4,10 +4,10 @@ services:
     command: ros2 run demo_nodes_cpp talker
 
   foxglove-bridge:
-    image: husarion/foxglove-bridge:humble-0.7.2-20231013
-    # build:
-    #   dockerfile: Dockerfile
-    #   context: ../
+    # image: husarion/foxglove-bridge:humble-0.7.2-20231013
+    build:
+      dockerfile: Dockerfile
+      context: ../
     ports:
       - 8766:8766
     command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8766
