@@ -68,22 +68,20 @@ RUN apt update && apt upgrade -y && apt install -y \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=pkg_builder /ros2_ws/install /ros2_ws/install
+COPY --from=pkg_builder /ros2_ws /ros2_ws
 
 # installing deppendencies from rosdep
 RUN apt-get update && apt-get install -y \
-        python3-pip \
-        python3-colcon-common-extensions \
-        python3-rosdep && \
+        ros-dev-tools && \
     rm -rf /etc/ros/rosdep/sources.list.d/20-default.list && \
     rosdep init && \
     rosdep update --rosdistro $ROS_DISTRO && \
     rosdep install --from-paths src --ignore-src -r -y && \
+    # Optimize image size
+    rm -rf build log src && \
     apt-get clean && \
     apt-get remove -y \
-        python3-pip \
-        python3-colcon-common-extensions \
-        python3-rosdep && \
+        ros-dev-tools && \
     rm -rf /var/lib/apt/lists/*
 
 RUN echo $(dpkg -s ros-$ROS_DISTRO-foxglove-bridge | grep 'Version' | sed -r 's/Version:\s([0-9]+.[0-9]+.[0-9]+).*/\1/g') >> /version.txt
