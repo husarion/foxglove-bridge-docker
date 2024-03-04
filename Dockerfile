@@ -22,10 +22,7 @@ RUN git clone https://github.com/husarion/rosbot_ros.git && \
     git clone https://github.com/husarion/ros_components_description.git && \
     # OpenManipulatorX
     git clone https://github.com/husarion/open_manipulator_x.git && \
-    find open_manipulator_x -mindepth 1 -maxdepth 1 ! -name 'open_manipulator_x_description' -exec rm -r {} + && \
-    # DepthAI
-    git clone https://github.com/luxonis/depthai-ros.git && \
-    find depthai-ros -mindepth 1 -maxdepth 1 ! -name 'depthai_descriptions' -exec rm -r {} +
+    find open_manipulator_x -mindepth 1 -maxdepth 1 ! -name 'open_manipulator_x_description' -exec rm -r {} +
 
 # Clone packages and custom msgs
 # Panther msgs
@@ -64,7 +61,9 @@ RUN apt update && apt upgrade -y && apt install -y \
         ros-$ROS_DISTRO-map-msgs \
         ros-$ROS_DISTRO-nav2-msgs \
         ros-$ROS_DISTRO-tf2-msgs \
-        ros-$ROS_DISTRO-robot-localization && \
+        ros-$ROS_DISTRO-robot-localization \
+        # DepthAI
+        ros-$ROS_DISTRO-depthai-descriptions && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
