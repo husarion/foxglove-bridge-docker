@@ -92,6 +92,7 @@ COPY --from=pkg_builder /ros2_ws /ros2_ws
 RUN apt-get update && apt-get install -y \
         ros-dev-tools && \
     rm -rf /etc/ros/rosdep/sources.list.d/20-default.list && \
+    cd /ros2_ws && \
     rosdep init && \
     rosdep update --rosdistro $ROS_DISTRO && \
     rosdep install --from-paths src --ignore-src -r -y && \
