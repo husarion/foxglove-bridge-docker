@@ -2,34 +2,35 @@ ARG ROS_DISTRO=humble
 ARG PREFIX=
 
 # URDF stage
-FROM ros:$ROS_DISTRO-ros-base as pkg_builder
-
-SHELL ["/bin/bash", "-c"]
+FROM husarnet/ros:${PREFIX}${ROS_DISTRO}-ros-base as pkg_builder
 
 WORKDIR /ros2_ws/src
 
 # Clone packages with descriptions
 # ROSbot 2
 RUN git clone https://github.com/husarion/rosbot_ros.git && \
-    find rosbot_ros -mindepth 1 -maxdepth 1 ! -name 'rosbot_description' -exec rm -r {} + && \
+    find rosbot_ros -mindepth 1 -maxdepth 1 ! -name 'rosbot_description' -exec rm -rf {} + && \
     # ROSbot XL
     git clone https://github.com/husarion/rosbot_xl_ros.git && \
-    find rosbot_xl_ros -mindepth 1 -maxdepth 1 ! -name 'rosbot_xl_description' -exec rm -r {} + && \
+    find rosbot_xl_ros -mindepth 1 -maxdepth 1 ! -name 'rosbot_xl_description' -exec rm -rf {} + && \
     # Panther (TODO: Change ros2-devel branch after first release of ROS 2)
     git clone -b ros2-devel https://github.com/husarion/panther_ros.git && \
-    find panther_ros -mindepth 1 -maxdepth 1 ! -name 'panther_description' -exec rm -r {} + && \
+    find panther_ros -mindepth 1 -maxdepth 1 ! -name 'panther_description' -exec rm -rf {} + && \
     # Ros components description
     git clone https://github.com/husarion/ros_components_description.git && \
     # OpenManipulatorX
     git clone https://github.com/husarion/open_manipulator_x.git && \
-    find open_manipulator_x -mindepth 1 -maxdepth 1 ! -name 'open_manipulator_x_description' -exec rm -r {} +
+    find open_manipulator_x -mindepth 1 -maxdepth 1 ! -name 'open_manipulator_x_description' -exec rm -rf {} + && \
+    # ROSbot XL + manipulator setup
+    git clone https://github.com/husarion/rosbot_xl_manipulation_ros && \
+    find rosbot_xl_manipulation_ros -mindepth 1 -maxdepth 1 ! -name 'rosbot_xl_manipulation_description' -exec rm -rf {} +
 
-# Clone packages and custom msgs
+# Clone dependends and custom msgs
 # Panther msgs
 RUN git clone --depth 1 https://github.com/husarion/panther_msgs.git && \
     # Astra msgs
     git clone --depth 1 https://github.com/orbbec/ros2_astra_camera.git && \
-    find ros2_astra_camera -mindepth 1 -maxdepth 1 ! -name 'astra_camera_msgs' -exec rm -r {} +
+    find ros2_astra_camera -mindepth 1 -maxdepth 1 ! -name 'astra_camera_msgs' -exec rm -rf {} +
 
 # ffmpeg image transport plugin
 RUN apt update && apt install -y \
@@ -44,12 +45,12 @@ RUN rosdep update --rosdistro $ROS_DISTRO && \
     rosdep install --from-paths src --ignore-src -y && \
     MYDISTRO=${PREFIX:-ros}; MYDISTRO=${MYDISTRO//-/} && \
     source /opt/$MYDISTRO/$ROS_DISTRO/setup.bash && \
-    MAKEFLAGS="-j1 -l1" colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 
 FROM husarnet/ros:${PREFIX}${ROS_DISTRO}-ros-core
 
-SHELL ["/bin/bash", "-c"]
+WORKDIR /ros2_ws
 
 # Install foxglove and all used msgs (robot-localization issue: https://github.com/cra-ros-pkg/robot_localization/issues/859)
 RUN apt update && apt upgrade -y && apt install -y \
