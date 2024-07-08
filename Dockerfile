@@ -86,4 +86,4 @@ RUN apt-get update && apt-get install -y \
 
 RUN echo $(dpkg -s ros-$ROS_DISTRO-foxglove-bridge | grep 'Version' | sed -r 's/Version:\s([0-9]+.[0-9]+.[0-9]+).*/\1/g') >> /version.txt
 
-EXPOSE 9090
+EXPOSE 8765
